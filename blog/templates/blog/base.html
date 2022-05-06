@@ -15,27 +15,12 @@
     </head>
     <body>
         <!-- Responsive navbar-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#!">About Me</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/about_me/">About</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/blog/">Blog</a></li>
-                    </ul>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        {% include 'blog/navbar.html' %}
         <!-- Page header with logo and tagline-->
-        <header class="py-5 bg-light border-bottom mb-4">
+        <header class="bg-light border-bottom mb-4">
             <div class="container">
                 <div class="text-center my-5">
-                    <h1 class="fw-bolder">Welcome to Blog Home!</h1>
-                    <p class="lead mb-0">A Bootstrap 5 starter layout for your next blog homepage</p>
+                    <strong class="fw-bolder" style="font-size:85pt; margin:0px;">Hello, World!</strong>
                 </div>
             </div>
         </header>
@@ -45,6 +30,7 @@
                 <!-- Blog entries-->
                 <div class="col-lg-8" id="main-area">
                     <!-- Featured blog post-->
+
                     {% block main_area %}
                     {% endblock %}
                 </div>
@@ -52,52 +38,51 @@
                 <div class="col-lg-4">
                     <!-- Search widget-->
                     <div class="card mb-4">
-                        <div class="card-header">Search</div>
+                        <div class="card-header"><i class="fas fa-search"></i> 검색</i></div>
                         <div class="card-body">
                             <div class="input-group">
-                                <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
-                                <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                                <input class="form-control" type="text" placeholder="여기서 검색하세요!" aria-label="Enter search term..." aria-describedby="button-search" />
+                                <button class="btn btn-primary" id="button-search" type="button"><i class="fas fa-angle-double-right"></i></button>
                             </div>
                         </div>
                     </div>
+
                     <!-- Categories widget-->
                     <div class="card mb-4">
-                        <div class="card-header">Categories</div>
+                        <div class="card-header"><i class="fas fa-hashtag"></i> 카테고리</div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><a href="#!">Web Design</a></li>
-                                        <li><a href="#!">HTML</a></li>
-                                        <li><a href="#!">Freebies</a></li>
+                                    <ul style="padding-left: 0px;">
+                                        {% for category in categories %}
+
+                                        &nbsp&nbsp&nbsp&nbsp <i class="fa-solid fa-{{ category.post_set.count }}"></i>&nbsp<a href="{{ category.get_absolute_url }}" style="text-decoration: none;">{{ category }}</a>
+                                            <br>
+                                        {% endfor %}
+
+                                        &nbsp&nbsp&nbsp&nbsp <i class="fa-solid fa-{{ no_category_post_count }}"></i>&nbsp<a href="/blog/category/no_category/" style="text-decoration: none;">미분류</a>
+
                                     </ul>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled mb-0">
-                                        <li><a href="#!">JavaScript</a></li>
-                                        <li><a href="#!">CSS</a></li>
-                                        <li><a href="#!">Tutorials</a></li>
-                                    </ul>
-                                </div>
+
                             </div>
                         </div>
                     </div>
+
                     <!-- Side widget-->
                     <div class="card mb-4">
-                        <div class="card-header">Side Widget</div>
-                        <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!</div>
+                        <div class="card-header"><i class="fas fa-bars"></i> 사이드 위젯</div>
+                        <div class="card-body">위에 이름과, 이름자 소학교 마디씩 나는 딴은 까닭입니다. 별 같이 하나 우는 아름다운 강아지, 가난한 봅니다. 별 별 릴케 듯합니다. 멀듯이, 별 이국 속의 때 패, 이런 아스라히 흙으로 봅니다. 가난한 잔디가 무성할 하나에 위에도 어머니, 둘 것은 그리고 있습니다. 어머님, 사람들의 것은 하나에 벌레는 버리었습니다.</div>
                     </div>
                 </div>
             </div>
         </div>
+
+
         <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
-        </footer>
-        <!-- Bootstrap core JS-->
+        {% include 'blog/footer.html' %}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
+        <script src="https://kit.fontawesome.com/2d1e6104b0.js" crossorigin="anonymous"></script>
     </body>
 </html>
 

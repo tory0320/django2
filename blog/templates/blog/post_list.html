@@ -1,20 +1,44 @@
 {% extends 'blog/base.html' %}
 
 {% block main_area %}
+
+    {% if user.is_authenticated %}
+        {% if user.is_superuser or user.is_staff %}
+            <a class="btn btn-info btn-sm float-right" href="/blog/create_post/"
+role="button" style="margin-top: 10px;"><i class="fas fa-pen"></i>&nbsp;&nbsp;New Post</a>
+        {% endif %}
+    {% endif %}
+    <h1><i class="fas fa-comment-alt"></i> Blog List
+        <hr> {% if category %}<span class="badge badge-secondary">{{ category }}</span>{% endif %}
+        {% if tag %}<span class="badge badge-light"><i class="fas fa-tags"></i> {{ tag }} ({{ tag.post_set.count }})</span>{% endif %}
+    </h1>
                     <!-- Featured blog post-->
                 {% if post_list.exists %}
                     {% for p in post_list %}
-                    <div class="card mb-4">
+                    <div class="card mb-4" id="post-{{ p.pk }}">
                         {% if p.head_image %}
                             <a href="#!"><img class="card-img-top" src="{{ p.head_image.url }}" alt="{{ p }} head im-age"/></a>
                         {% else %}
                             <img class="card-img-top" src="https://picsum.photos/seed/{{ p.id }}/800/200" alt="random_image">
                         {% endif %}
                         <div class="card-body">
-                            <div class="small text-muted">{{ p.created_at }}</div>
+                            {% if p.category %}
+                                <span class="badge badge-secondary float-right">{{ p.category }}</span>
+                            {% else %}
+                                <span class="badge badge-secondary float-right">미분류</span>
+                            {% endif %}
+                            <div class="small text-muted">{{ p.created_at }} by {{ p.author | upper }}</div>
                             <h2 class="card-title">{{ p.title }}</h2>
                             <p class="card-text">{{ p.content | truncatewords:45 }}</p>
-                            <a class="btn btn-primary" href="{{ p.get_absolute_url }}">Read more →</a>
+                            {% if p.tags.exists %}
+                                <i class="fas fa-tags"></i>
+                                {% for tag in p.tags.iterator %}
+                                    <a href="{{ tag.get_absolute_url }}"><span class="badge badge-pill badge-light">{{ tag }}</span></a>
+                                    {% endfor %}
+                                    <br/>
+                                    <br/>
+                                {% endif %}
+                            <a class="btn btn-primary" href="{{ p.get_absolute_url }}">더 자세히 보기 →</a>
                         </div>
                     </div>
 
